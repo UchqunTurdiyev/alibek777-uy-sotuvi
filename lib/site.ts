@@ -1,0 +1,27 @@
+// Saytdagi barcha matnlar va kontaktlar shu yerda — o'zgartirish uchun faqat shu faylni tahrirlang.
+
+export const site = {
+  brand: "ALI BEK 777",
+  company: "Abdullayev Company",
+  phones: [
+    { label: "+998 91 031 47 77", tel: "+998910314777" },
+    { label: "+998 91 031 37 77", tel: "+998910313777" },
+  ],
+  hero: {
+    badge: "Uy-joy sotuvi",
+    title: "Oilangiz uchun ishonchli uyni biz bilan tanlang",
+    text: "Zamonaviy uylar va xonadonlar. Arizani qoldiring — mutaxassisimiz siz bilan bog'lanib, byudjetingizga mos variantlarni taklif qiladi.",
+  },
+  advantages: [
+    { icon: "🏠", title: "Turli variantlar", text: "Har xil maydon va narxdagi uylar hamda xonadonlar." },
+    { icon: "📄", title: "Hujjatlar to'liq", text: "Har bir obyekt hujjatlari tekshirilgan holda taklif qilinadi." },
+    { icon: "🤝", title: "Shaxsiy menejer", text: "Tanlovdan kalit topshirilguncha bitta mas'ul mutaxassis." },
+    { icon: "🚗", title: "Bepul ko'rik", text: "Sizga qulay vaqtda obyektni joyida ko'rsatamiz." },
+  ],
+  steps: [
+    { title: "Ariza qoldiring", text: "Ism, telefon va manzilingizni yozing — 1 daqiqa." },
+    { title: "Maslahat oling", text: "Menejer qo'ng'iroq qilib, talablaringizni aniqlaydi." },
+    { title: "Uyni ko'ring", text: "Mos variantlarni birga ko'rib chiqamiz." },
+    { title: "Kalitni oling", text: "Rasmiylashtirishda to'liq yordam beramiz." },
+  ],
+};
