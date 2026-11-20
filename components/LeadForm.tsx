@@ -114,7 +114,7 @@ export default function LeadForm({ id = "forma" }: { id?: string }) {
       </label>
       <input name="website" type="text" tabIndex={-1} autoComplete="off" className="hp" aria-hidden="true" />
       {error && <p className="form-error">{error}</p>}
-      <button type="submit" className="btn btn-gold" disabled={loading}>
+      <button type="submit" className="btn btn-gold btn-shine" disabled={loading}>
         {loading ? "Yuborilmoqda..." : "Ariza qoldirish"}
       </button>
       <p className="form-note">🔒 Ma'lumotlaringiz uchinchi shaxslarga berilmaydi</p>

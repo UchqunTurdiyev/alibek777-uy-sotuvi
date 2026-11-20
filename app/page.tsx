@@ -1,6 +1,10 @@
 import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
+import Reveal from "@/components/Reveal";
+import RegisterToast from "@/components/RegisterToast";
 import { site } from "@/lib/site";
+
+const delay = (i: number) => ({ "--d": `${i * 110}ms` }) as React.CSSProperties;
 
 export default function Home() {
   const main = site.phones[0];
@@ -26,25 +30,38 @@ export default function Home() {
 
       <main>
         <section className="hero">
+          <div className="orbs" aria-hidden="true">
+            <span className="orb orb-1" />
+            <span className="orb orb-2" />
+            <span className="orb orb-3" />
+          </div>
           <div className="container hero-grid">
             <div className="hero-text">
-              <span className="badge">{site.hero.badge}</span>
-              <h1>{site.hero.title}</h1>
-              <p className="lead">{site.hero.text}</p>
-              <div className="hero-logo">
+              <span className="badge anim-up" style={delay(0)}>
+                <i className="dot" /> {site.hero.badge}
+              </span>
+              <h1 className="anim-up" style={delay(1)}>
+                {site.hero.title.split(" ").slice(0, -2).join(" ")}{" "}
+                <span className="gold-text">{site.hero.title.split(" ").slice(-2).join(" ")}</span>
+              </h1>
+              <p className="lead anim-up" style={delay(2)}>{site.hero.text}</p>
+              <div className="hero-logo anim-up float" style={delay(3)}>
                 <Image src="/logo.jpg" alt={`${site.brand} — ${site.company}`} width={780} height={700} priority sizes="(max-width: 900px) 70vw, 420px" />
+                <span className="shine" />
               </div>
             </div>
-            <LeadForm />
+            <div className="anim-zoom" style={delay(2)}>
+              <LeadForm />
+            </div>
           </div>
         </section>
 
         <section className="section">
           <div className="container">
-            <h2 className="title">Nega aynan biz?</h2>
+            <h2 className="title reveal">Nega aynan biz?</h2>
             <div className="cards">
-              {site.advantages.map((a) => (
-                <div key={a.title} className="card">
+              {site.advantages.map((a, i) => (
+                <div key={a.title} className="card reveal" style={delay(i)}>
                   <div className="card-icon">{a.icon}</div>
                   <h3>{a.title}</h3>
                   <p>{a.text}</p>
@@ -56,10 +73,10 @@ export default function Home() {
 
         <section className="section section-alt">
           <div className="container">
-            <h2 className="title">Qanday ishlaymiz</h2>
+            <h2 className="title reveal">Qanday ishlaymiz</h2>
             <ol className="steps">
               {site.steps.map((s, i) => (
-                <li key={s.title}>
+                <li key={s.title} className="reveal" style={delay(i)}>
                   <span className="step-num">{i + 1}</span>
                   <h3>{s.title}</h3>
                   <p>{s.text}</p>
@@ -70,11 +87,11 @@ export default function Home() {
         </section>
 
         <section className="section cta">
-          <div className="container cta-box">
+          <div className="container cta-box reveal">
             <h2>Orzuingizdagi uyni bugun tanlang</h2>
             <p>Ariza qoldiring yoki hoziroq qo&apos;ng&apos;iroq qiling</p>
             <div className="cta-actions">
-              <a href="#forma" className="btn btn-gold">Ariza qoldirish</a>
+              <a href="#forma" className="btn btn-gold btn-shine">Ariza qoldirish</a>
               {site.phones.map((p) => (
                 <a key={p.tel} href={`tel:${p.tel}`} className="btn btn-outline">📞 {p.label}</a>
               ))}
@@ -95,6 +112,8 @@ export default function Home() {
       </footer>
 
       <a href={`tel:${main.tel}`} className="float-call" aria-label="Qo'ng'iroq qilish">📞</a>
+      <RegisterToast />
+      <Reveal />
     </>
   );
 }

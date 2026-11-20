@@ -2,6 +2,8 @@
 
 export const site = {
   brand: "ALI BEK 777",
+  // Rahmat sahifasidan 10 soniyada o'tiladigan Telegram havola (Vercel'da NEXT_PUBLIC_TELEGRAM_URL)
+  telegram: process.env.NEXT_PUBLIC_TELEGRAM_URL || "",
   company: "Abdullayev Company",
   phones: [
     { label: "+998 91 031 47 77", tel: "+998910314777" },
