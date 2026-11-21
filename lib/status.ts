@@ -4,7 +4,7 @@ import { refreshLeadMessages } from "./telegram";
 
 // Qaysi bosqich Metaga qaysi hodisa sifatida yuboriladi
 const META_EVENT: Partial<Record<LeadStatus, { name: MetaEvent; prefix: string }>> = {
-  qualified: { name: "QualifiedLead", prefix: "ql" },
+  viewing: { name: "QualifiedLead", prefix: "ql" }, // "Ko'rikka keladi" = sifatli lid
   disqualified: { name: "DisqualifiedLead", prefix: "dl" },
   purchased: { name: "Purchase", prefix: "pur" },
 };

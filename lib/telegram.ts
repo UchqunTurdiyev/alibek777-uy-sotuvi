@@ -41,7 +41,6 @@ const EMOJI: Record<LeadStatus, string> = {
   new: "🆕",
   no_answer: "📵",
   thinking: "🤔",
-  qualified: "✅",
   viewing: "🏠",
   later: "⏳",
   purchased: "💰",
@@ -86,7 +85,7 @@ export function leadKeyboard(id: string) {
   return {
     inline_keyboard: [
       [
-        { text: "✅ Sifatli", callback_data: `st:q:${id}` },
+        { text: "🏠 Ko'rikka keladi", callback_data: `st:q:${id}` },
         { text: "❌ Sifatsiz", callback_data: `st:d:${id}` },
       ],
       [{ text: "💰 Sotib oldi (summa kiritish)", callback_data: `st:p:${id}` }],

@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ok: true });
       }
 
-      const status: LeadStatus = action === "q" ? "qualified" : "disqualified";
+      const status: LeadStatus = action === "q" ? "viewing" : "disqualified";
       if (lead.status === status) {
         await tg("answerCallbackQuery", { callback_query_id: cq.id, text: "Bu holat allaqachon belgilangan" });
         return NextResponse.json({ ok: true });
