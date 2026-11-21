@@ -40,8 +40,11 @@ export default function MetaPixel() {
       first.current = false;
       return;
     }
-    window.fbq?.("track", "PageView");
+    if (!pathname?.startsWith("/crm")) window.fbq?.("track", "PageView");
   }, [pathname]);
+
+  // CRM paneli menejerlar uchun — u yerda Pixel ishlamaydi
+  if (pathname?.startsWith("/crm")) return null;
 
   return (
     <>

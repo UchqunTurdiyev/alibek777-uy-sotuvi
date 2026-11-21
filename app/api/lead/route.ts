@@ -67,8 +67,10 @@ export async function POST(req: NextRequest) {
     url: pageUrl || undefined,
     referrer: str(b.referrer, 500) || undefined,
     utm,
+    source: "website",
     status: "new",
     history: [],
+    comments: [],
     tg: [],
   };
 
@@ -82,7 +84,7 @@ export async function POST(req: NextRequest) {
     try {
       await saveLead(lead);
     } catch (e) {
-      console.error("Redis xato:", e);
+      console.error("MongoDB xato:", e);
     }
   }
 

@@ -1,6 +1,6 @@
 # ALI BEK 777 — Uy-joy sotuvi sayti
 
-Next.js 16 (App Router) · Meta Pixel + Conversions API · Telegram bot · Upstash Redis
+Next.js 16 (App Router) · Meta Pixel + Conversions API · Telegram bot · MongoDB · CRM paneli
 
 ## Imkoniyatlar
 - Forma: ism, telefon (+998 maska), manzil → `/rahmat` sahifasiga o'tadi
@@ -13,12 +13,26 @@ Next.js 16 (App Router) · Meta Pixel + Conversions API · Telegram bot · Upsta
 - Pixel `Lead` va CAPI `Lead` bir xil `event_id` bilan → deduplikatsiya
 - Lid kartochkasida status tarixi va Metaga yuborilgan/yuborilmaganligi ko'rinadi
 
+## CRM paneli — `/crm`
+- Parol bilan kirish (`CRM_PASSWORD`), har bir menejer o'z ismi bilan kiradi — izoh va o'zgarishlarda ismi yoziladi
+- Kanban ustunlar: Lid · Ko'tarmadi · O'ylab ko'radi · Qiziqdi (sifatli) · Ko'rikka keladi · Keyinroq · Sotib oldi · Olmaydi
+- Kartochkani sudrab boshqa ustunga o'tkazish yoki ro'yxatdan bosqich tanlash
+- **Qiziqdi** → Metaga `QualifiedLead`, **Olmaydi** → `DisqualifiedLead`, **Sotib oldi** → summa so'raladi → `Purchase`
+- Izohlar: qo'shish, tahrirlash, o'chirish, "Barchasini ko'rish"; oxirgi izoh Telegramdagi xabarda ham ko'rinadi
+- Qidiruv (ism, telefon, manzil, izoh), manba filtri, ustunlarni yashirish
+- Belgilash (har ustunda "All"), tanlanganlarni o'chirish yoki boshqa bosqichga ko'chirish
+- Copy (raqamni nusxalash), qo'ng'iroq, Telegram username, IG ID / Email, budjet maydonlari
+- "Ishlandi" doirasi, qo'lda lid qo'shish, statistika (jami, bugun, sotuvlar, konversiya, summa)
+- Har 20 soniyada yangi lidlar avtomatik yuklanadi
+- Telegram botdagi tugmalar va CRM bir xil bazada ishlaydi
+
 ## O'rnatish
 1. `npm install`
 2. `.env.example` ni `.env.local` ga nusxalab, qiymatlarni to'ldiring:
    - **Meta**: Events Manager → Dataset (Pixel) ID va *Conversions API → Generate access token*
    - **Telegram**: @BotFather dan token. Botni guruhga qo'shing, guruhda `/id` yozing → chat ID chiqadi (avval webhook ulangan bo'lishi kerak) yoki @userinfobot orqali oling
-   - **Upstash Redis**: upstash.com (yoki Vercel → Storage → Upstash) → REST URL va Token
+   - **MongoDB**: cloud.mongodb.com → bepul M0 klaster → Database Access'da foydalanuvchi → Network Access'da `0.0.0.0/0` → Connect → Drivers → `MONGODB_URI`
+   - **CRM**: `CRM_PASSWORD` — panelga kirish paroli
 3. `npm run dev` — lokal ishga tushirish
 
 ## Deploy (Vercel)

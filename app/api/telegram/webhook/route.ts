@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLead, saveLead, type Lead, type LeadStatus } from "@/lib/store";
+import { getLead, type Lead, type LeadStatus } from "@/lib/store";
+import { applyStatus } from "@/lib/status";
 import { tg, chatIds, refreshLeadMessages, esc, fmtMoney } from "@/lib/telegram";
-import { sendMetaEvent, CURRENCY } from "@/lib/meta";
+import { CURRENCY } from "@/lib/meta";
 
 export const runtime = "nodejs";
 
@@ -25,23 +26,8 @@ function parseAmount(text: string) {
   return Number.isFinite(n) && n > 0 ? Math.round(n * 100) / 100 : null;
 }
 
-async function setStatus(lead: Lead, status: LeadStatus, by: string, value?: number) {
-  const eventName = status === "qualified" ? "QualifiedLead" : status === "disqualified" ? "DisqualifiedLead" : "Purchase";
-  const prefix = status === "qualified" ? "ql" : status === "disqualified" ? "dl" : "pur";
-  // Purchase uchun event_id summaga bog'langan: summa tuzatilsa ham Meta qabul qiladi, takror bosish esa dublikat bo'lmaydi
-  const eventId = `${prefix}_${lead.id}${value ? `_${value}` : ""}`;
-  const res = await sendMetaEvent(eventName, lead, { eventId, value, currency: CURRENCY });
-
-  lead.status = status;
-  if (status === "purchased") {
-    lead.value = value;
-    lead.currency = CURRENCY;
-  }
-  lead.history.push({ status, by, at: Date.now(), meta: res.ok, value, currency: value ? CURRENCY : undefined });
-  await saveLead(lead);
-  await refreshLeadMessages(lead);
-  return res;
-}
+const setStatus = (lead: Lead, status: LeadStatus, by: string, value?: number) =>
+  applyStatus(lead, status, by, value).then((r) => r || { ok: true, error: undefined });
 
 const PROMPT_TAG = "#LID:";
 

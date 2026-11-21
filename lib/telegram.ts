@@ -1,4 +1,4 @@
-import type { Lead, LeadStatus } from "./store";
+import { stageLabel, type Lead, type LeadStatus } from "./store";
 
 const BOT = process.env.TELEGRAM_BOT_TOKEN;
 
@@ -37,12 +37,17 @@ export const fmtTime = (ts: number) =>
 
 export const fmtMoney = (v: number) => new Intl.NumberFormat("ru-RU").format(v).replace(/ /g, " ");
 
-const STATUS: Record<LeadStatus, string> = {
-  new: "🆕 Yangi",
-  qualified: "✅ Sifatli",
-  disqualified: "❌ Sifatsiz",
-  purchased: "💰 Sotib oldi",
+const EMOJI: Record<LeadStatus, string> = {
+  new: "🆕",
+  no_answer: "📵",
+  thinking: "🤔",
+  qualified: "✅",
+  viewing: "🏠",
+  later: "⏳",
+  purchased: "💰",
+  disqualified: "❌",
 };
+const STATUS = (s: LeadStatus) => `${EMOJI[s] || ""} ${stageLabel(s)}`;
 
 export function leadText(l: Lead) {
   const utm = l.utm || {};
@@ -58,16 +63,20 @@ export function leadText(l: Lead) {
     utm.utm_content ? `🖼 <b>Kreativ:</b> ${esc(utm.utm_content)}` : "",
     `📊 <b>Meta:</b> fbp ${l.fbp ? "✅" : "—"} · fbc ${l.fbc ? "✅" : "—"} · IP ${l.ip ? "✅" : "—"}`,
     ``,
-    `<b>Holat:</b> ${STATUS[l.status]}${
+    `<b>Holat:</b> ${STATUS(l.status)}${
       l.status === "purchased" && l.value ? ` — ${fmtMoney(l.value)} ${l.currency}` : ""
     }`,
   ].filter((x) => x !== "");
 
-  if (l.history.length) {
+  const lastComment = l.comments?.[l.comments.length - 1];
+  if (lastComment) lines.push("", `💬 <i>${esc(lastComment.by)}:</i> ${esc(lastComment.text.slice(0, 300))}`);
+
+  if (l.history?.length) {
     lines.push("", "<i>Tarix:</i>");
     for (const h of l.history.slice(-5)) {
       const val = h.value ? ` ${fmtMoney(h.value)} ${h.currency}` : "";
-      lines.push(`• ${STATUS[h.status]}${val} — ${esc(h.by)}, ${fmtTime(h.at)} · Meta ${h.meta ? "✅" : "⚠️"}`);
+      const meta = h.meta === null || h.meta === undefined ? "" : ` · Meta ${h.meta ? "✅" : "⚠️"}`;
+      lines.push(`• ${STATUS(h.status)}${val} — ${esc(h.by)}, ${fmtTime(h.at)}${meta}`);
     }
   }
   return lines.join("\n");
@@ -86,6 +95,7 @@ export function leadKeyboard(id: string) {
 }
 
 export async function sendLeadToTelegram(lead: Lead) {
+  if (!BOT) return [];
   const sent: { chatId: string; messageId: number }[] = [];
   await Promise.all(
     chatIds.map(async (chatId) => {
@@ -103,6 +113,7 @@ export async function sendLeadToTelegram(lead: Lead) {
 }
 
 export async function refreshLeadMessages(lead: Lead) {
+  if (!BOT || !lead.tg?.length) return;
   await Promise.all(
     lead.tg.map((m) =>
       tg("editMessageText", {
