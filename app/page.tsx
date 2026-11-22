@@ -2,6 +2,7 @@ import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
 import Reveal from "@/components/Reveal";
 import RegisterToast from "@/components/RegisterToast";
+import HeroCarousel from "@/components/HeroCarousel";
 import { site } from "@/lib/site";
 
 const delay = (i: number) => ({ "--d": `${i * 110}ms` }) as React.CSSProperties;
@@ -19,12 +20,7 @@ export default function Home() {
               <small>{site.company}</small>
             </span>
           </a>
-          <div className="header-phones">
-            {site.phones.map((p) => (
-              <a key={p.tel} href={`tel:${p.tel}`}>📞 {p.label}</a>
-            ))}
-          </div>
-          <a href={`tel:${main.tel}`} className="btn btn-outline header-call">Qo&apos;ng&apos;iroq</a>
+          <a href="#forma" className="btn btn-outline header-call">Ariza qoldirish</a>
         </div>
       </header>
 
@@ -46,8 +42,7 @@ export default function Home() {
               </h1>
               <p className="lead anim-up" style={delay(2)}>{site.hero.text}</p>
               <div className="hero-logo anim-up float" style={delay(3)}>
-                <Image src="/logo.jpg" alt={`${site.brand} — ${site.company}`} width={780} height={700} priority sizes="(max-width: 900px) 70vw, 420px" />
-                <span className="shine" />
+                <HeroCarousel slides={site.gallery} />
               </div>
             </div>
             <div className="anim-zoom" style={delay(2)}>
@@ -92,9 +87,7 @@ export default function Home() {
             <p>Ariza qoldiring yoki hoziroq qo&apos;ng&apos;iroq qiling</p>
             <div className="cta-actions">
               <a href="#forma" className="btn btn-gold btn-shine">Ariza qoldirish</a>
-              {site.phones.map((p) => (
-                <a key={p.tel} href={`tel:${p.tel}`} className="btn btn-outline">📞 {p.label}</a>
-              ))}
+              <a href={`tel:${main.tel}`} className="btn btn-outline">📞 {main.label}</a>
             </div>
           </div>
         </section>
@@ -104,9 +97,7 @@ export default function Home() {
         <div className="container footer-row">
           <span>© {new Date().getFullYear()} {site.brand} — {site.company}</span>
           <span className="footer-phones">
-            {site.phones.map((p) => (
-              <a key={p.tel} href={`tel:${p.tel}`}>{p.label}</a>
-            ))}
+            <a href={`tel:${main.tel}`}>📞 {main.label}</a>
           </span>
         </div>
       </footer>

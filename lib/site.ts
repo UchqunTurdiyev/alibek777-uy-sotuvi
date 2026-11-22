@@ -9,6 +9,11 @@ export const site = {
     { label: "+998 91 031 47 77", tel: "+998910314777" },
     { label: "+998 91 031 37 77", tel: "+998910313777" },
   ],
+  // Bosh sahifadagi karusel rasmlari (public/uylar ichida, siqilgan WebP)
+  gallery: [
+    { src: "/uylar/uy-1.webp", alt: "ALI BEK 777 turar-joy majmuasi — ko'cha tomondan ko'rinish" },
+    { src: "/uylar/uy-2.webp", alt: "ALI BEK 777 turar-joy majmuasi — hovli va bolalar maydonchasi" },
+  ],
   hero: {
     badge: "Uy-joy sotuvi",
     title: "Oilangiz uchun ishonchli uyni biz bilan tanlang",

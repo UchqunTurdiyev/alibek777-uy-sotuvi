@@ -50,9 +50,7 @@ img { max-width: 100%; height: auto; display: block; }
 .brand img { border-radius: 4px; }
 .brand b { display: block; color: var(--gold); letter-spacing: .5px; font-size: 17px; line-height: 1.1; }
 .brand small { color: var(--muted); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
-.header-phones { display: flex; gap: 20px; font-weight: 600; font-size: 15px; }
-.header-phones a:hover { color: var(--gold); }
-.header-call { display: none; padding: 10px 16px; font-size: 14px; }
+.header-call { display: inline-flex; padding: 10px 18px; font-size: 14px; }
 
 /* Hero */
 .hero {
@@ -149,10 +147,8 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
   .hero { padding: 32px 0 48px; }
-  .hero-logo { display: none; }
+  .hero-logo { max-width: 100%; margin-top: 22px; }
   .cards, .steps { grid-template-columns: 1fr 1fr; }
-  .header-phones { display: none; }
-  .header-call { display: inline-flex; }
 }
 @media (max-width: 560px) {
   .cards, .steps { grid-template-columns: 1fr; }
@@ -306,3 +302,28 @@ img { max-width: 100%; height: auto; display: block; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal, .anim-up, .anim-zoom { opacity: 1; transform: none; translate: none; }
 }
+
+/* ═════════════ Hero karuseli ═════════════ */
+.hero-logo { max-width: 440px; }
+.carousel { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-3); }
+.carousel .slide { position: absolute; inset: 0; opacity: 0; transform: scale(1.06); transition: opacity .9s ease, transform 5s ease; }
+.carousel .slide.on { opacity: 1; transform: scale(1); }
+.carousel .slide img { object-fit: cover; }
+.carousel::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; pointer-events: none;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .45)); }
+.car-btn {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .35); background: rgba(20, 20, 24, .45); color: #fff; font-size: 26px; line-height: 1;
+  cursor: pointer; backdrop-filter: blur(6px); display: grid; place-items: center; padding-bottom: 3px;
+  opacity: 0; transition: opacity .25s, background .2s;
+}
+.car-btn:hover { background: rgba(214, 178, 106, .85); color: #1a1a1d; }
+.car-btn.prev { left: 12px; }
+.car-btn.next { right: 12px; }
+.carousel:hover .car-btn, .carousel:focus-within .car-btn { opacity: 1; }
+.car-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 2; }
+.car-dots button { width: 9px; height: 9px; border-radius: 99px; border: 0; background: rgba(255, 255, 255, .5); cursor: pointer; transition: width .3s, background .3s; padding: 0; }
+.car-dots button.on { width: 26px; background: var(--gold); }
+.carousel .shine { z-index: 1; }
+@media (hover: none) { .car-btn { opacity: 1; width: 34px; height: 34px; font-size: 22px; } }
+@media (max-width: 900px) { .carousel { aspect-ratio: 4 / 3; } }
