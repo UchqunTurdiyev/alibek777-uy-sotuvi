@@ -23,10 +23,10 @@ export default function TelegramRedirect({ url }: { url: string }) {
   return (
     <div className="tg-redirect">
       <p>
-        <b>{left}</b> soniyadan so&apos;ng Telegram sahifamizga o&apos;tasiz
+        <b>{left}</b> soniyadan so&apos;ng Telegram kanalimizga o&apos;tasiz
       </p>
       <div className="tg-progress"><span style={{ width: `${pct}%` }} /></div>
-      <a href={url} className="btn btn-tg">✈️ Hoziroq Telegram&apos;ga o&apos;tish</a>
+      <a href={url} className="btn btn-tg">✈️ Telegram kanalga o&apos;tish</a>
     </div>
   );
 }
