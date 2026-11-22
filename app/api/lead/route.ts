@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
     referrer: str(b.referrer, 500) || undefined,
     utm,
     source: "website",
+    apartment: str(b.apartment, 80) || undefined,
     status: "new",
     history: [],
     comments: [],

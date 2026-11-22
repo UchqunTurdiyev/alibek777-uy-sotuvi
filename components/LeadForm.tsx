@@ -64,6 +64,13 @@ export default function LeadForm({ id = "forma" }: { id?: string }) {
           url: location.href,
           referrer: document.referrer,
           utm,
+          apartment: (() => {
+            try {
+              return sessionStorage.getItem("apt") || "";
+            } catch {
+              return "";
+            }
+          })(),
         }),
       });
       const json = await res.json();

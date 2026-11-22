@@ -584,6 +584,7 @@ function LeadCard({
 
       <dl className="crm-fields">
         {l.address && (<><dt>Manzil:</dt><dd>{l.address}</dd></>)}
+        {l.apartment && (<><dt>Xonadon:</dt><dd className="green">{l.apartment}</dd></>)}
         {l.budget && (<><dt>Budjet:</dt><dd className="green">{l.budget}</dd></>)}
         {l.status === "purchased" && l.value ? (<><dt>Sotuv:</dt><dd className="green">{fmtMoney(l.value)} {l.currency}</dd></>) : null}
         <dt>tg:</dt><dd>{l.tgUser ? "@" + l.tgUser : "—"}</dd>

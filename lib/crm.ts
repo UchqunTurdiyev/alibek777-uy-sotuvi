@@ -4,7 +4,7 @@ import type { Lead } from "./store";
 export type CrmLead = Pick<
   Lead,
   | "id" | "name" | "phone" | "address" | "createdAt" | "updatedAt" | "source" | "utm" | "status" | "value"
-  | "currency" | "budget" | "tgUser" | "contact" | "done" | "history" | "comments" | "url"
+  | "currency" | "budget" | "apartment" | "tgUser" | "contact" | "done" | "history" | "comments" | "url"
 >;
 
 export function toCrm(l: Lead): CrmLead {
@@ -21,6 +21,7 @@ export function toCrm(l: Lead): CrmLead {
     value: l.value,
     currency: l.currency,
     budget: l.budget,
+    apartment: l.apartment,
     tgUser: l.tgUser,
     contact: l.contact,
     done: l.done,

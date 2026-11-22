@@ -57,6 +57,7 @@ export function leadText(l: Lead) {
     `👤 <b>Ism:</b> ${esc(l.name)}`,
     `📞 <b>Tel:</b> ${fmtPhone(l.phone)}`,
     `📍 <b>Manzil:</b> ${esc(l.address)}`,
+    l.apartment ? `🏢 <b>Xonadon:</b> ${esc(l.apartment)}` : "",
     `🕒 <b>Vaqt:</b> ${fmtTime(l.createdAt)}`,
     source ? `🎯 <b>Manba:</b> ${esc(source)}` : `🎯 <b>Manba:</b> to'g'ridan-to'g'ri`,
     utm.utm_content ? `🖼 <b>Kreativ:</b> ${esc(utm.utm_content)}` : "",

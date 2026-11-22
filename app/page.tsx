@@ -3,6 +3,7 @@ import LeadForm from "@/components/LeadForm";
 import Reveal from "@/components/Reveal";
 import RegisterToast from "@/components/RegisterToast";
 import HeroCarousel from "@/components/HeroCarousel";
+import ApartmentSection from "@/components/apartment/ApartmentSection";
 import { site } from "@/lib/site";
 
 const delay = (i: number) => ({ "--d": `${i * 110}ms` }) as React.CSSProperties;
@@ -51,7 +52,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section">
+        <ApartmentSection />
+
+        <section className="section section-alt">
           <div className="container">
             <h2 className="title reveal">Nega aynan biz?</h2>
             <div className="cards">
@@ -66,7 +69,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-alt">
+        <section className="section">
           <div className="container">
             <h2 className="title reveal">Qanday ishlaymiz</h2>
             <ol className="steps">
@@ -82,13 +85,17 @@ export default function Home() {
         </section>
 
         <section className="section cta">
-          <div className="container cta-box reveal">
-            <h2>Orzuingizdagi uyni bugun tanlang</h2>
-            <p>Ariza qoldiring yoki hoziroq qo&apos;ng&apos;iroq qiling</p>
-            <div className="cta-actions">
-              <a href="#forma" className="btn btn-gold btn-shine">Ariza qoldirish</a>
-              <a href={`tel:${main.tel}`} className="btn btn-outline">📞 {main.label}</a>
+          <div className="container cta-box cta-grid reveal">
+            <div className="cta-text">
+              <h2>Orzuingizdagi uyni bugun tanlang</h2>
+              <p>Ma&apos;lumotlaringizni qoldiring — mutaxassisimiz narxlar, bo&apos;sh xonadonlar va to&apos;lov shartlari haqida batafsil aytib beradi.</p>
+              <ul className="cta-points">
+                <li>✓ Bepul maslahat</li>
+                <li>✓ Xonadonni joyida ko&apos;rsatamiz</li>
+                <li>✓ Hujjatlar bo&apos;yicha to&apos;liq yordam</li>
+              </ul>
             </div>
+            <LeadForm id="forma-2" />
           </div>
         </section>
       </main>

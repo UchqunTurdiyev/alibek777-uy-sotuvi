@@ -37,6 +37,7 @@ export type Lead = {
   value?: number;
   currency?: string;
   budget?: string;
+  apartment?: string; // saytdagi 3D bo'limda tanlangan xonadon
   tgUser?: string;
   contact?: string; // IG ID / Email
   done?: boolean; // kartochkadagi doira — "ishlandi" belgisi
