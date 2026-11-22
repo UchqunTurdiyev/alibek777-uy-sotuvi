@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { currentUser, unauthorized, fail } from "@/lib/crm-auth";
+import { currentUser, unauthorized, fail, checkDeleteCode, badCode } from "@/lib/crm-auth";
 import { leads, getLead, isStatus } from "@/lib/store";
 import { applyStatus } from "@/lib/status";
 import { str } from "@/lib/crm";
@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
   if (!ids.length) return fail("Hech narsa tanlanmagan");
 
   if (b.action === "delete") {
+    if (!(await checkDeleteCode(b.code))) return badCode();
     const col = await leads();
     const r = await col.deleteMany({ id: { $in: ids } });
     return NextResponse.json({ ok: true, count: r.deletedCount });

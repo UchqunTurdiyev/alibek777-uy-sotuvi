@@ -47,7 +47,9 @@ async function api<T = { ok: boolean; error?: string }>(url: string, method = "G
   return json as T;
 }
 
-type Confirm = { text: string; danger?: boolean; onYes: () => void } | null;
+// askCode — o'chirish kodi so'raladi; onYes xato matnini qaytarsa, oyna yopilmaydi
+type Confirm = { text: string; danger?: boolean; askCode?: boolean; onYes: (code: string) => Promise<string | null | void> | void } | null;
+const errMsg = (e: unknown) => (e instanceof Error ? e.message : "Xatolik");
 type Toast = { id: number; text: string; kind: "ok" | "err" };
 
 /* ───────────── asosiy panel ───────────── */
@@ -194,9 +196,10 @@ export default function CrmBoard({ user, brand, dbReady }: { user: string; brand
     setConfirm({
       text: `"${l?.name}" lidini butunlay o'chirasizmi? Bu amalni qaytarib bo'lmaydi.`,
       danger: true,
-      onYes: async () => {
+      askCode: true,
+      onYes: async (code) => {
         try {
-          await api(`/api/crm/leads/${id}`, "DELETE");
+          await api(`/api/crm/leads/${id}`, "DELETE", { code });
           setLeads((all) => all.filter((x) => x.id !== id));
           setSelected((s) => {
             const n = new Set(s);
@@ -206,7 +209,7 @@ export default function CrmBoard({ user, brand, dbReady }: { user: string; brand
           if (openId === id) setOpenId(null);
           toast("Lid o'chirildi");
         } catch (e) {
-          toast(e instanceof Error ? e.message : "Xatolik", "err");
+          return errMsg(e);
         }
       },
     });
@@ -218,14 +221,15 @@ export default function CrmBoard({ user, brand, dbReady }: { user: string; brand
     setConfirm({
       text: `Tanlangan ${ids.length} ta lidni butunlay o'chirasizmi? Bu amalni qaytarib bo'lmaydi.`,
       danger: true,
-      onYes: async () => {
+      askCode: true,
+      onYes: async (code) => {
         try {
-          const r = await api<{ ok: true; count: number }>("/api/crm/bulk", "POST", { action: "delete", ids });
+          const r = await api<{ ok: true; count: number }>("/api/crm/bulk", "POST", { action: "delete", ids, code });
           setLeads((all) => all.filter((x) => !selected.has(x.id)));
           setSelected(new Set());
           toast(`${r.count} ta lid o'chirildi`);
         } catch (e) {
-          toast(e instanceof Error ? e.message : "Xatolik", "err");
+          return errMsg(e);
         }
       },
     });
@@ -487,26 +491,7 @@ export default function CrmBoard({ user, brand, dbReady }: { user: string; brand
         />
       )}
 
-      {confirm && (
-        <div className="crm-overlay" onClick={() => setConfirm(null)}>
-          <div className="crm-modal crm-modal-sm" onClick={(e) => e.stopPropagation()}>
-            <p className="crm-confirm-text">{confirm.text}</p>
-            <div className="crm-modal-foot">
-              <button className="crm-btn" onClick={() => setConfirm(null)}>Bekor qilish</button>
-              <button
-                className={`crm-btn ${confirm.danger ? "crm-btn-danger" : "crm-btn-gold"}`}
-                onClick={() => {
-                  const fn = confirm.onYes;
-                  setConfirm(null);
-                  fn();
-                }}
-              >
-                Ha, tasdiqlayman
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {confirm && <ConfirmModal confirm={confirm} onClose={() => setConfirm(null)} />}
 
       <div className="crm-toasts">
         {toasts.map((t) => (
@@ -741,13 +726,14 @@ function LeadModal({
     setConfirm({
       text: "Bu izohni o'chirasizmi?",
       danger: true,
-      onYes: async () => {
+      askCode: true,
+      onYes: async (code) => {
         try {
-          const r = await api<{ ok: true; lead: CrmLead }>(`/api/crm/leads/${l.id}/comments?cid=${c.id}`, "DELETE");
+          const r = await api<{ ok: true; lead: CrmLead }>(`/api/crm/leads/${l.id}/comments?cid=${c.id}`, "DELETE", { code });
           onReplace(r.lead);
           toast("Izoh o'chirildi");
         } catch (err) {
-          toast(err instanceof Error ? err.message : "Xatolik", "err");
+          return errMsg(err);
         }
       },
     });
@@ -950,6 +936,62 @@ function PurchaseModal({ lead, onClose, onSubmit }: { lead: CrmLead; onClose: ()
           </div>
         </form>
       </div>
+    </div>
+  );
+}
+
+/* ───────────── tasdiqlash (o'chirish kodi bilan) ───────────── */
+
+function ConfirmModal({ confirm, onClose }: { confirm: NonNullable<Confirm>; onClose: () => void }) {
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function yes(e?: FormEvent) {
+    e?.preventDefault();
+    if (confirm.askCode && !code.trim()) return setError("O'chirish kodini kiriting");
+    setLoading(true);
+    setError("");
+    const err = await confirm.onYes(code.trim());
+    setLoading(false);
+    if (err) {
+      setError(err);
+      setCode("");
+      return;
+    }
+    onClose();
+  }
+
+  return (
+    <div className="crm-overlay" onClick={onClose}>
+      <form className="crm-modal crm-modal-sm" onClick={(e) => e.stopPropagation()} onSubmit={yes}>
+        <p className="crm-confirm-text">{confirm.text}</p>
+        {confirm.askCode && (
+          <label className="crm-code">
+            <span>🔒 O&apos;chirish kodi</span>
+            <input
+              className="crm-input"
+              type="password"
+              inputMode="numeric"
+              autoComplete="off"
+              autoFocus
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setError("");
+              }}
+              placeholder="•••••"
+            />
+          </label>
+        )}
+        {error && <div className="crm-error">{error}</div>}
+        <div className="crm-modal-foot">
+          <button type="button" className="crm-btn" onClick={onClose}>Bekor qilish</button>
+          <button className={`crm-btn ${confirm.danger ? "crm-btn-danger" : "crm-btn-gold"}`} disabled={loading}>
+            {loading ? "Tekshirilmoqda..." : confirm.askCode ? "O'chirish" : "Ha, tasdiqlayman"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

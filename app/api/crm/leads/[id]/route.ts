@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { currentUser, unauthorized, fail } from "@/lib/crm-auth";
+import { currentUser, unauthorized, fail, checkDeleteCode, badCode } from "@/lib/crm-auth";
 import { getLead, saveLead, leads, isStatus } from "@/lib/store";
 import { applyStatus } from "@/lib/status";
 import { refreshLeadMessages } from "@/lib/telegram";
@@ -57,8 +57,10 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
   return NextResponse.json({ ok: true, lead: toCrm(lead), meta });
 }
 
-export async function DELETE(_req: NextRequest, { params }: Ctx) {
+export async function DELETE(req: NextRequest, { params }: Ctx) {
   if (!(await currentUser())) return unauthorized();
+  const b = await req.json().catch(() => ({}));
+  if (!(await checkDeleteCode(b.code))) return badCode();
   const { id } = await params;
   const col = await leads();
   await col.deleteOne({ id });

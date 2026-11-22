@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from "crypto";
+import { createHash, createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -56,3 +56,17 @@ export const cookieOptions = {
 
 export const unauthorized = () => NextResponse.json({ ok: false, error: "Kirish talab qilinadi" }, { status: 401 });
 export const fail = (error: string, status = 400) => NextResponse.json({ ok: false, error }, { status });
+
+// O'chirish kodi. Repozitoriy ochiq bo'lgani uchun kodning o'zi emas, SHA-256 xeshi saqlanadi.
+// Kodni almashtirish: Vercel'da CRM_DELETE_CODE qo'ying (u bo'lsa, shu xesh o'rniga ishlatiladi).
+const DELETE_CODE_HASH = "c443727913d42cd1a8600c5f3e784a9260f5c43c1a99c4f704b27440b04deb8f";
+
+export async function checkDeleteCode(code: unknown) {
+  const c = typeof code === "string" ? code.trim() : "";
+  const env = process.env.CRM_DELETE_CODE;
+  const ok = c.length > 0 && (env ? safeEq(c, env) : safeEq(createHash("sha256").update(c).digest("hex"), DELETE_CODE_HASH));
+  if (!ok) await new Promise((r) => setTimeout(r, 800)); // kod tanlashni sekinlashtirish
+  return ok;
+}
+
+export const badCode = () => NextResponse.json({ ok: false, error: "O'chirish kodi noto'g'ri" }, { status: 403 });

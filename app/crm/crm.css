@@ -193,3 +193,8 @@
   .crm-title h1 { font-size: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .crm *, .crm-login * { animation: none !important; transition: none !important; } }
+
+.crm-code { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+.crm-code span { color: var(--cmuted); font-size: 13px; }
+.crm-code .crm-input { margin: 0; letter-spacing: 4px; text-align: center; }
+.crm-modal-sm .crm-error { margin-top: 10px; }

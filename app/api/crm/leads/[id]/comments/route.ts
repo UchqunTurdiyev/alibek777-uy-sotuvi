@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
-import { currentUser, unauthorized, fail } from "@/lib/crm-auth";
+import { currentUser, unauthorized, fail, checkDeleteCode, badCode } from "@/lib/crm-auth";
 import { getLead, saveLead } from "@/lib/store";
 import { refreshLeadMessages } from "@/lib/telegram";
 import { toCrm, str } from "@/lib/crm";
@@ -41,9 +41,11 @@ export async function PATCH(req: NextRequest, { params }: Ctx) {
   return NextResponse.json({ ok: true, lead: toCrm(lead) });
 }
 
-// Izohni o'chirish: ?cid=...
+// Izohni o'chirish: ?cid=...  body: { code }
 export async function DELETE(req: NextRequest, { params }: Ctx) {
   if (!(await currentUser())) return unauthorized();
+  const b = await req.json().catch(() => ({}));
+  if (!(await checkDeleteCode(b.code))) return badCode();
   const { id } = await params;
   const lead = await getLead(id);
   if (!lead) return fail("Lid topilmadi", 404);
