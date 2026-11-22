@@ -19,7 +19,7 @@ export const site = {
   hero: {
     badge: "Uy-joy sotuvi",
     title: "Oilangiz uchun ishonchli uyni biz bilan tanlang",
-    text: "Zamonaviy uylar va xonadonlar. Arizani qoldiring — mutaxassisimiz siz bilan bog'lanib, byudjetingizga mos variantlarni taklif qiladi.",
+    text: "Zamonaviy uylar va xonadonlar. To'liq ma'lumot uchun ro'yxatdan o'ting — mutaxassisimiz siz bilan bog'lanib, byudjetingizga mos variantlarni taklif qiladi.",
   },
   advantages: [
     { icon: "🏠", title: "Turli variantlar", text: "Har xil maydon va narxdagi uylar hamda xonadonlar." },
