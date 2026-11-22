@@ -13,8 +13,11 @@ export const site = {
   ],
   // Bosh sahifadagi karusel rasmlari (public/uylar ichida, siqilgan WebP)
   gallery: [
-    { src: "/uylar/uy-1.webp", alt: "ALI BEK 777 turar-joy majmuasi — ko'cha tomondan ko'rinish" },
-    { src: "/uylar/uy-2.webp", alt: "ALI BEK 777 turar-joy majmuasi — hovli va bolalar maydonchasi" },
+    { src: "/uylar/01.jpg", alt: "ALI BEK 777 — 112.50 m² xonadon, 3D planirovka" },
+    { src: "/uylar/02.jpg", alt: "ALI BEK 777 — 75.30 m² xonadon, 3D planirovka" },
+    { src: "/uylar/03.jpg", alt: "ALI BEK 777 — 1 xonali, 50.00 m² xonadon, 3D planirovka" },
+    { src: "/uylar/04.jpg", alt: "ALI BEK 777 — 1 xonali, 37.70 m² xonadon, 3D planirovka" },
+    { src: "/uylar/05.jpg", alt: "ALI BEK 777 — 2 xonali, 73.50 m² xonadon, 3D planirovka" },
   ],
   hero: {
     badge: "Uy-joy sotuvi",
