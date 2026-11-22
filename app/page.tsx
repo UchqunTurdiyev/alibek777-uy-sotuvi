@@ -85,16 +85,9 @@ export default function Home() {
         </section>
 
         <section className="section cta">
-          <div className="container cta-box cta-grid reveal">
-            <div className="cta-text">
-              <h2>Orzuingizdagi uyni bugun tanlang</h2>
-              <p>Ma&apos;lumotlaringizni qoldiring — mutaxassisimiz narxlar, bo&apos;sh xonadonlar va to&apos;lov shartlari haqida batafsil aytib beradi.</p>
-              <ul className="cta-points">
-                <li>✓ Bepul maslahat</li>
-                <li>✓ Xonadonni joyida ko&apos;rsatamiz</li>
-                <li>✓ Hujjatlar bo&apos;yicha to&apos;liq yordam</li>
-              </ul>
-            </div>
+          <div className="container cta-box cta-form reveal">
+            <h2>Orzuingizdagi uyni bugun tanlang</h2>
+            <p>Ariza qoldiring yoki hoziroq qo&apos;ng&apos;iroq qiling</p>
             <LeadForm id="forma-2" />
           </div>
         </section>

@@ -328,14 +328,10 @@ img { max-width: 100%; height: auto; display: block; }
 @media (hover: none) { .car-btn { opacity: 1; width: 34px; height: 34px; font-size: 22px; } }
 @media (max-width: 900px) { .carousel { aspect-ratio: 4 / 3; } }
 
-/* ═════════════ CTA: matn + forma ═════════════ */
-.cta-grid { display: grid; grid-template-columns: 1fr minmax(320px, 420px); gap: 40px; align-items: center; text-align: left; padding: 44px; }
-.cta-text p { margin: 12px 0 18px; }
-.cta-points { list-style: none; display: grid; gap: 10px; color: var(--text); font-weight: 600; }
-.cta-grid .form { text-align: left; }
-@media (max-width: 900px) {
-  .cta-grid { grid-template-columns: 1fr; padding: 28px 18px; gap: 24px; }
-}
+/* ═════════════ CTA: forma ═════════════ */
+.cta-form { display: flex; flex-direction: column; align-items: center; }
+.cta-form .form { width: 100%; max-width: 460px; text-align: left; }
+@media (max-width: 560px) { .cta-form { padding: 32px 16px; } }
 
 /* ═════════════ Xonadonlar 3D ═════════════ */
 .apt-sub { text-align: center; color: var(--muted); max-width: 640px; margin: -22px auto 26px; }
