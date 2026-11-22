@@ -54,36 +54,6 @@ export default function Home() {
 
         <ApartmentSection />
 
-        <section className="section section-alt">
-          <div className="container">
-            <h2 className="title reveal">Nega aynan biz?</h2>
-            <div className="cards">
-              {site.advantages.map((a, i) => (
-                <div key={a.title} className="card reveal" style={delay(i)}>
-                  <div className="card-icon">{a.icon}</div>
-                  <h3>{a.title}</h3>
-                  <p>{a.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container">
-            <h2 className="title reveal">Qanday ishlaymiz</h2>
-            <ol className="steps">
-              {site.steps.map((s, i) => (
-                <li key={s.title} className="reveal" style={delay(i)}>
-                  <span className="step-num">{i + 1}</span>
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
         <section className="section cta">
           <div className="container cta-box cta-form reveal">
             <h2>Orzuingizdagi uyni bugun tanlang</h2>
